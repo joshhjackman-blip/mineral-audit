@@ -1,0 +1,22 @@
+{
+  "royalty_fraction": 0.125,
+  "base_clause": {
+    "valuation_method": "market_value",
+    "valuation_point": "at_the_well",
+    "raw_text": "on gas, including casinghead gas and all gaseous substances, produced from said land and sold or used off the premises or for the extraction of gasoline or other product therefrom, the market value at the well of one-eighth (1/8) of the gas so sold or used"
+  },
+  "addendum_present": true,
+  "addendum_clause": {
+    "valuation_method": "gross_value_received",
+    "valuation_point": "first_purchaser",
+    "raw_text": "Lessee agrees to compute and pay royalties on the gross value received for oil, gas, casinghead gas, and all other gaseous substances produced, saved, and sold from the leased premises, free and clear of all costs and expenses, including but not limited to the costs of producing, gathering, storing, separating, treating, dehydrating, compressing, processing, transporting, and marketing said production."
+  },
+  "addendum_has_superseding_language": true,
+  "superseding_language_quote": "In the event of any conflict between the provisions of this Addendum and the provisions of the printed Lease to which it is attached, the provisions of this Addendum shall control.",
+  "no_deductions_clause_present": true,
+  "no_deductions_clause_text": "free and clear of all costs and expenses, including but not limited to the costs of producing, gathering, storing, separating, treating, dehydrating, compressing, processing, transporting, and marketing said production",
+  "add_back_provision_present": false,
+  "add_back_provision_text": null,
+  "lease_date": "March 14, 2003",
+  "extraction_confidence_notes": "The addendum's valuation point is not explicitly stated as 'at the well' or 'point of sale' in so many words. I classified it as first_purchaser because 'gross value received' for production that has been gathered, treated, and transported implies a valuation point downstream of the wellhead, consistent with how this exact clause was interpreted in the real case this lease is modeled on. A human reviewer should confirm this inference rather than treating it as certain, since the addendum does not use the literal phrase 'point of sale.'"
+}
