@@ -1,0 +1,18 @@
+{
+  "royalty_fraction": 0.2,
+  "base_clause": {
+    "valuation_method": "proceeds",
+    "valuation_point": "first_purchaser",
+    "raw_text": "On gas, including casinghead gas and all other gaseous substances, produced from said land and sold or used off the premises, one-fifth (1/5) of the gross proceeds received by Lessee from the sale of such gas at the prevailing market price."
+  },
+  "addendum_present": false,
+  "addendum_clause": null,
+  "addendum_has_superseding_language": false,
+  "superseding_language_quote": null,
+  "no_deductions_clause_present": true,
+  "no_deductions_clause_text": "such deduction, expense, or cost shall be added to the market value or gross proceeds so that Lessor's royalty shall never be chargeable, directly or indirectly, with any costs or expenses other than its pro rata share of severance or production taxes",
+  "add_back_provision_present": true,
+  "add_back_provision_text": "If any disposition, contract, or sale of oil or gas by Lessee shall include any reduction or charge for the expenses or costs of production, treatment, transportation, manufacturing, processing, or marketing of such oil or gas, then such deduction, expense, or cost shall be added to the market value or gross proceeds so that Lessor's royalty shall never be chargeable, directly or indirectly, with any costs or expenses other than its pro rata share of severance or production taxes.",
+  "lease_date": "February 9, 2007",
+  "extraction_confidence_notes": "Paragraph 3(c) is doing two jobs at once, and I extracted it into both no_deductions_clause_text and add_back_provision_text because it is genuinely both: a standard cost-free royalty assurance AND a clause requiring deducted amounts to be added back to the royalty base. The real distinguishing feature of an add-back provision, that it is tethered specifically to costs deducted by a third-party buyer in a sales contract, downstream of the point of sale, is present here ('any disposition, contract, or sale of oil or gas by Lessee shall include any reduction or charge'). This is the harder-to-spot case: the add-back language is not separately labeled or in its own addendum, it's folded into the main royalty paragraph using ordinary-sounding 'no deductions' phrasing. A less careful extraction could easily miss the add-back flag entirely and only catch the no-deductions clause, which would understate what the owner may be owed."
+}

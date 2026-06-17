@@ -13,11 +13,18 @@ Two kinds of tests here, deliberately separated:
    that the live extraction + classification pipeline still reaches the
    correct, case-law-verified outcome.
 
-The BlueStone v. Randle (Tex. 2021) fact pattern is the single best test
-case available: it has a base lease, a conflicting addendum, superseding
-language, and a real, citable, decided outcome to check against. If the
-pipeline gets this one right, that's strong evidence the extraction
-schema and parser are sound.
+Two real fact patterns are covered here, deliberately chosen because
+they exercise different branches of the classifier:
+
+- BlueStone v. Randle: base lease vs. conflicting addendum, superseding
+  language resolves which clause governs.
+- Devon v. Sheppard: a 'bespoke' add-back provision folded into the main
+  royalty paragraph (no addendum at all), testing whether extraction can
+  spot a narrow, easily-missed clause type buried inside ordinary-sounding
+  'no deductions' language.
+
+If the pipeline gets both right, that's real evidence the extraction
+schema generalizes rather than having been tuned to one example.
 """
 
 import sys
@@ -56,6 +63,37 @@ def test_offline_parse_bluestone_extraction_reaches_correct_outcome():
     assert "BlueStone" in result.citation
     print("PASS: BlueStone extraction -> parse -> classify pipeline matches real case outcome")
     print(f"  Extraction confidence note surfaced: {notes[:90]}...")
+
+
+def test_offline_parse_devon_sheppard_add_back_detected_and_flagged():
+    """
+    Devon Energy Prod. Co. v. Sheppard (Tex. 2023): a 'bespoke' add-back
+    provision folded into the main royalty paragraph, not a separate
+    addendum. The hard part of this case: the add-back language reads
+    like ordinary 'no deductions' phrasing, and a careless extraction
+    could mistake it for that alone and miss the add-back flag entirely.
+
+    Correct behavior: ruling should still resolve to NOT_ALLOWED as a
+    floor (proceeds-type method, first-purchaser point), but confidence
+    must drop to LOW and the result must explicitly flag Devon v. Sheppard
+    by name, since the true entitlement may exceed gross proceeds.
+    """
+    with open(os.path.join(_DATA_DIR, "sample_extraction_devon_sheppard.json")) as f:
+        raw_json = f.read()
+
+    fields, notes = parse_extraction_response(raw_json)
+
+    assert fields.royalty_fraction == 0.2
+    assert fields.addendum_clause is None
+    assert fields.add_back_provision_present is True
+
+    result = classify_deduction_rule(fields)
+
+    assert result.ruling == DeductionRuling.NOT_ALLOWED
+    assert result.confidence == ConfidenceLevel.LOW
+    assert any("Devon" in flag for flag in result.flags)
+    print("PASS: Devon v. Sheppard add-back provision correctly detected and flagged for manual review")
+    print(f"  Confidence correctly dropped to LOW despite a clear base ruling")
 
 
 def test_offline_parser_rejects_missing_royalty_fraction():
@@ -131,6 +169,7 @@ def test_live_extraction_against_bluestone_sample():
 if __name__ == "__main__":
     tests = [
         test_offline_parse_bluestone_extraction_reaches_correct_outcome,
+        test_offline_parse_devon_sheppard_add_back_detected_and_flagged,
         test_offline_parser_rejects_missing_royalty_fraction,
         test_offline_parser_handles_unknown_classifications_gracefully,
         test_live_extraction_against_bluestone_sample,
