@@ -26,7 +26,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Already paid" }, { status: 400 });
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
     const session = await getServerStripe().checkout.sessions.create({
       mode: "payment",
