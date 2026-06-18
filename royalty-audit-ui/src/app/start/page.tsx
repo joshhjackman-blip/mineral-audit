@@ -125,7 +125,9 @@ export default function StartPage() {
 
   async function handleUploadSubmit(e: React.FormEvent) {
     e.preventDefault();
+    console.log("handleUploadSubmit fired");
     if (!canSubmitUpload) return;
+    console.log("canSubmitUpload passed", { canSubmitUpload });
 
     setStep("submitting");
     setSubmitError(null);
