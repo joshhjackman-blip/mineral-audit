@@ -133,6 +133,7 @@ export default function StartPage() {
     setSubmitError(null);
 
     try {
+      console.log("calling /api/cases...");
       const res = await fetch("/api/cases", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -154,12 +155,16 @@ export default function StartPage() {
         }),
       });
 
+      console.log("/api/cases status:", res.status);
+      const json = await res.json();
+      console.log("/api/cases response:", json);
+
       if (!res.ok) {
-        const { error } = await res.json();
-        throw new Error(error || "Failed to submit case");
+        throw new Error(json.error || "Failed to submit case");
       }
 
-      const { caseId } = await res.json();
+      const { caseId } = json;
+      console.log("caseId received:", caseId);
 
       const allFiles: { file: File; path: string }[] = [];
       if (files.lease) allFiles.push({ file: files.lease, path: `${caseId}/lease/${files.lease.name}` });
@@ -167,18 +172,28 @@ export default function StartPage() {
       files.checkStubs.forEach((f) => allFiles.push({ file: f, path: `${caseId}/check-stubs/${f.name}` }));
       files.taxForms.forEach((f) => allFiles.push({ file: f, path: `${caseId}/tax-forms/${f.name}` }));
 
+      console.log("uploading files:", allFiles.map((f) => f.path));
+
       const { createClient } = await import("@supabase/supabase-js");
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       );
 
-      await Promise.all(
+      const uploadResults = await Promise.all(
         allFiles.map(({ file, path }) =>
           supabase.storage.from("case-documents").upload(path, file)
         )
       );
 
+      console.log("upload results:", uploadResults);
+
+      const uploadErrors = uploadResults.filter((r) => r.error);
+      if (uploadErrors.length > 0) {
+        console.error("upload errors:", uploadErrors);
+      }
+
+      console.log("redirecting to /summary/" + caseId);
       router.push(`/summary/${caseId}`);
     } catch (err) {
       console.error("Submit error:", err);
