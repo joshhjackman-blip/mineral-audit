@@ -62,9 +62,18 @@ export default function Home() {
       <section className="border-b border-[var(--line)] px-6 py-16 sm:px-10">
         <div className="mx-auto max-w-[960px]">
           <div className="grid gap-10 sm:grid-cols-3">
-            <Stat figure="~40%" label="Of royalty checks contain at least one pricing or deduction error" />
-            <Stat figure="4 years" label="The Texas statute of limitations on recovering unpaid royalties" />
-            <Stat figure="$0" label="What most mineral owners spend verifying their payments today" />
+            <Stat
+              figure="3 ways"
+              label="Operators most commonly underpay: improper deductions, wrong decimal interest, and below-market pricing — all detectable with your own documents"
+            />
+            <Stat
+              figure="4 years"
+              label="The Texas statute of limitations on recovering unpaid royalties — after that, the right to collect is gone regardless of the amount owed"
+            />
+            <Stat
+              figure="$0"
+              label="What most mineral owners spend verifying their payments, leaving errors undetected for years"
+            />
           </div>
         </div>
       </section>
